@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#CarCategoryComponent 1`] = `
+<div
+  className="car-category"
+>
+  <div
+    className="category-title"
+  >
+    Compact
+  </div>
+  <div
+    className="category-container"
+  >
+    <div
+      className="car-panel show"
+    >
+      <img
+        className="rental-provider"
+        src="/dist/images/budget-logo.jpg"
+      />
+      <hr
+        className="panel-divider"
+      />
+      <div
+        className="car-details"
+      >
+        <div
+          className="make-model"
+        >
+          Ford Ka
+        </div>
+        <div
+          className="vehicle-type"
+        >
+          Compact
+        </div>
+      </div>
+      <div
+        className="price"
+      >
+        £
+        52.02
+      </div>
+    </div>
+    <div
+      className="car-panel show"
+    >
+      <img
+        className="rental-provider"
+        src="/dist/images/enterprise-logo.jpg"
+      />
+      <hr
+        className="panel-divider"
+      />
+      <div
+        className="car-details"
+      >
+        <div
+          className="make-model"
+        >
+          Ford Fiesta
+        </div>
+        <div
+          className="vehicle-type"
+        >
+          Compact
+        </div>
+      </div>
+      <div
+        className="price"
+      >
+        £
+        65.87
+      </div>
+    </div>
+    <div
+      className="car-panel show"
+    >
+      <img
+        className="rental-provider"
+        src="/dist/images/enterprise-logo.jpg"
+      />
+      <hr
+        className="panel-divider"
+      />
+      <div
+        className="car-details"
+      >
+        <div
+          className="make-model"
+        >
+          Audi A3
+        </div>
+        <div
+          className="vehicle-type"
+        >
+          Compact
+        </div>
+      </div>
+      <div
+        className="price"
+      >
+        £
+        39.59
+      </div>
+    </div>
+  </div>
+</div>
+`;

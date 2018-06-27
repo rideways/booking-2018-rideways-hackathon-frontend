@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#App 1`] = `
+<div>
+  <button
+    className="add-vehicle-button"
+    onClick={[Function]}
+  >
+    Add Vehicle
+  </button>
+  <div>
+    <div>
+      <div
+        className="car-category"
+      >
+        <div
+          className="category-title"
+        >
+          SUV
+        </div>
+        <div
+          className="category-container"
+        >
+          <div
+            className="car-panel show"
+          >
+            <div
+              className="discount-panel"
+            >
+              Save 
+              10
+              %
+            </div>
+            <img
+              className="rental-provider"
+              src="/dist/images/hertz-logo.jpg"
+            />
+            <hr
+              className="panel-divider"
+            />
+            <div
+              className="car-details"
+            >
+              <div
+                className="make-model"
+              >
+                Honda CRV
+              </div>
+              <div
+                className="vehicle-type"
+              >
+                SUV
+              </div>
+            </div>
+            <div
+              className="price"
+            >
+              £
+              40
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

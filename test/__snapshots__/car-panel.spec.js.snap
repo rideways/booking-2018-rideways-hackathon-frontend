@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#CarPanelComponent 1`] = `
+<div
+  className="car-panel show"
+>
+  <img
+    className="rental-provider"
+    src="/dist/images/budget-logo.jpg"
+  />
+  <hr
+    className="panel-divider"
+  />
+  <div
+    className="car-details"
+  >
+    <div
+      className="make-model"
+    >
+      Ford Ka
+    </div>
+    <div
+      className="vehicle-type"
+    >
+      Compact
+    </div>
+  </div>
+  <div
+    className="price"
+  >
+    £
+    52.02
+  </div>
+</div>
+`;
