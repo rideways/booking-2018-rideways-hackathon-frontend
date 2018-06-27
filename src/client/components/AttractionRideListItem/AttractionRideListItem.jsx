@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './AttractionRideListItem.scss';
 
-class AttractionRideListItem extends Component {
+export default class AttractionRideListItem extends Component {
 
     constructor(props) {
         super(props);
@@ -11,19 +12,24 @@ class AttractionRideListItem extends Component {
         this.attractions = [];
     }
 
+    //todo: setup function to perform a search for rides.
+
     render() {
         return (
             <div>
                 <div className='rw-booking-hack__attraction-list-item-container'>
                     <div className='rw-booking-hack__attraction-list-item-row'>
-                        <span className='rw-booking-hack__attraction-name'>A TEST ATTRACTION</span>
-                        <span className='rw-booking-hack__attraction-eta'>A TEST ETA</span>
-                        <span className='rw-booking-hack__attraction-price'>A TEST ATTRACTION PRICE</span>
+                        <span className='rw-booking-hack__ride-type'>{this.props.name}</span>
+                        <button className='rw-booking-hack__search-rides'>Search Rides</button>
                     </div>
                 </div>
+                {/* todo: use state flag to render a list of retrieved ride rates. */}
             </div>
         )
     }
 }
 
-module.exports = AttractionRideListItem;
+AttractionRideListItem.propTypes = {
+    name: PropTypes.string,
+    location: PropTypes.object,
+};
