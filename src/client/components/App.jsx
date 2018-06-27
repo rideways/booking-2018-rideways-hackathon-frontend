@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AttractionRidesList from './AttractionRidesList/AttractionRidesList.jsx';
 
 class App extends Component {
 
@@ -65,7 +66,7 @@ class App extends Component {
     // const carsToShow = this.state.carsToShow;
 
     return <div>
-      HEY
+      <AttractionRidesList />
     </div>;
   }
 }
