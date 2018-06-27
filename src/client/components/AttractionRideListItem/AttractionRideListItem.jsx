@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './AttractionRideListItem.scss';
 
 class AttractionRideListItem extends Component {
 

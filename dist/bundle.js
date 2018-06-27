@@ -22106,7 +22106,7 @@ exports = module.exports = __webpack_require__(187)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  background-color: #f6f6f6;\n  font-family: sans-serif; }\n\nh1, h2, h3, h4, h5, h6 {\n  color: #333333; }\n\nbody {\n  background: #EEE;\n  color: #005CC5;\n  text-align: center; }\n\n.car-details__title {\n  text-align: left;\n  padding-left: 1rem; }\n", ""]);
+exports.push([module.i, "body {\n  background-color: #f6f6f6;\n  font-family: sans-serif; }\n\nh1, h2, h3, h4, h5, h6 {\n  color: #333333; }\n\nbody {\n  background: #EEE;\n  color: #005CC5;\n  text-align: center; }\n", ""]);
 
 // exports
 
@@ -22737,6 +22737,10 @@ var _react = __webpack_require__(49);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _AttractionRideListItem = __webpack_require__(192);
+
+var _AttractionRideListItem2 = _interopRequireDefault(_AttractionRideListItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22796,6 +22800,51 @@ var AttractionRideListItem = function (_Component) {
 }(_react.Component);
 
 module.exports = AttractionRideListItem;
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(193);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(188)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/lib/loader.js!./AttractionRideListItem.scss", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/sass-loader/lib/loader.js!./AttractionRideListItem.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(187)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".rw-booking-hack__attraction-list-item-container {\n  background: hotpink; }\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
