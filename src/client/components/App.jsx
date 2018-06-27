@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+// import ReactDOM from 'react-dom';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import AttractionRidesList from './AttractionRidesList/AttractionRidesList.jsx';
 
 class App extends Component {
