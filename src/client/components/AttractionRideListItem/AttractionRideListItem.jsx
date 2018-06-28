@@ -20,7 +20,7 @@ export default class AttractionRideListItem extends Component {
             <Row className='show-grid rw-booking-hack__attraction-list-item'>
                 <Col className='rw-booking-hack__attraction-name'>{this.props.name}</Col>
                 <Col>
-                    <Button bsStyle="primary">Search Rates</Button>
+                    <Button className='rw-booking-hack__attraction-list-search-btn' bsStyle="primary">Search Rates</Button>
                 </Col>
                 <Collapse>
                     <div>
