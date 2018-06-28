@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './AttractionRideListItem.scss';
 import { Col, Row, Collapse, Button, Well, Glyphicon } from 'react-bootstrap';
 import axios from 'axios';
-import { PulseLoader } from 'react-spinners';
+import { ClipLoader, PulseLoader } from 'react-spinners';
 
 export default class AttractionRideListItem extends Component {
 
@@ -13,7 +13,8 @@ export default class AttractionRideListItem extends Component {
         this.state = {
             // availableRides: [],
             availableRide: null,
-            resultsInProgress: false,
+            loadingRates: false,
+            loadingBooking: false,
         };
         //explicitly bind hoisted functions to this on lexical scope.
         this.searchForRates = this.searchForRates.bind(this);
@@ -31,6 +32,10 @@ export default class AttractionRideListItem extends Component {
         let passengers = 1; // Hardcode to 1
         let pickupDateTime = null; // TODO: For pre-booking get the pickup time right now using moment
 
+        this.setState({
+            loadingRates: true,
+        });
+
         axios.get(`http://localhost:8080/rates?pickup=${this.props.pickupLocation.lat},${this.props.pickupLocation.long}&dropoff=${this.props.dropoffLocation.lat},${this.props.dropoffLocation.long}&language=${language}&currency=${currency}&passengers=${passengers}&apikey=abcde-12345&isOnDemand=${isOnDemand}&pickupdatetime=${pickupDateTime}`
         )
             .then((response) => {
@@ -42,12 +47,13 @@ export default class AttractionRideListItem extends Component {
                     availableRide: response.data.journeys[0].legs[0].results[0],
                     searchReference: response.data.journeys[0].legs[0].searchReference,
                     resultsLoaded: true,
+                    loadingRates: false,
                     rideBooked: false,
                 });
             });
     }
 
-    bookRide(resultReference = 0, isOnDemand = true) {
+    bookRide(resultReference = 0, isOnDemand = true, attempt = 1) {
 
         //build up POST request to book that specific journey           
         axios.post('http://localhost:8080/book', {
@@ -91,7 +97,10 @@ export default class AttractionRideListItem extends Component {
                 debugger;
 
                 console.log(error);
-            });
+
+                //retry
+                this.bookRide();
+            }.bind(this));
     }
 
     // renderSearchResults() {
@@ -115,13 +124,18 @@ export default class AttractionRideListItem extends Component {
                 <Row className='rw-booking-hack__attraction-list-item'>
                     <Col className='rw-booking-hack__attraction-name'>{this.props.name}</Col>
                     <Col>
-                        <Button
-                            className='rw-booking-hack__attraction-list-search-btn'
-                            bsStyle="primary"
-                            onClick={this.searchForRates}
-                        >
-                            Search Rides
-                        </Button>
+                        {this.state.loadingRates === true
+                            ?
+                            <ClipLoader color={'#003580'} loading={this.state.loadingRates} />
+                            :
+                            <Button
+                                className='rw-booking-hack__attraction-list-search-btn'
+                                bsStyle="primary"
+                                onClick={this.searchForRates}
+                            >
+                                Search Rides
+                                    </Button>
+                        }
                     </Col>
                 </Row>
                 <Collapse in={this.state.resultsLoaded === true}>
@@ -140,16 +154,21 @@ export default class AttractionRideListItem extends Component {
                                     <Button bsStyle="success">
                                         <Glyphicon glyph="ok" /> Booked!
                                     </Button>
-                                    : <Button
-                                        className='rw-booking-hack__attraction-list-search-btn'
-                                        bsStyle="primary"
-                                        onClick={this.bookRide}
-                                    >
-                                        Book Ride
-                                </Button>
+                                    : 
+                                    this.state.loadingBooking 
+                                        ?
+                                            <ClipLoader color={'#003580'} loading={this.state.loadingBooking} />
+                                        : 
+                                            <Button
+                                                className='rw-booking-hack__attraction-list-search-btn'
+                                                bsStyle="primary"
+                                                onClick={this.bookRide}
+                                            >
+                                                Book Ride
+                                            </Button>
                             }
                         </Row>
-                        : <PulseLoader color={'#003580'} loading={this.state.loading} />
+                        : <PulseLoader color={'#003580'} loading={this.state.loadingRates} />
                     }
                     </div>
                 </Collapse>
