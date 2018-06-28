@@ -17,6 +17,7 @@ export default class AttractionRideListItem extends Component {
         };
         //explicitly bind hoisted functions to this on lexical scope.
         this.searchForRates = this.searchForRates.bind(this);
+        this.bookRide = this.bookRide.bind(this);
         // this.renderSearchResults = this.renderSearchResults.bind(this);
     }
 
@@ -39,8 +40,52 @@ export default class AttractionRideListItem extends Component {
                 this.setState({
                     // availableRides: response.data.journeys[0].legs[0].results,
                     availableRide: response.data.journeys[0].legs[0].results[0],
+                    searchReference: response.data.journeys[0].legs[0].searchReference,
                     resultsLoaded: true,
                 });
+            });
+    }
+
+    bookRide(resultReference = 0, isOnDemand = true) {
+
+        //build up POST request to book that specific journey           
+        axios.post('http://localhost:8080/book', {
+            paymentNonce: "fake-valid-nonce",
+            isOnDemand: "true",
+            affiliateCallbackURL: "https://affiliate.com/callback",
+            journeys: [
+                {
+                    legs: [
+                        {
+                            searchReference: this.state.searchReference,
+                            resultReference: 0
+                        }
+                    ]
+                }
+            ],
+            // TODO: pass this down from initial page load, as if coming out of booking.com
+            request: {
+                passenger: {
+                    title: "Mr",
+                    firstName: "Ivan",
+                    lastName: "Hill",
+                    email: "james.hill@email.com",
+                    cellphone: "07856955865",
+                    language: "en-gb",
+                    consentToMarketing: "false"
+                }
+            }
+        }
+        )
+            .then(function (response) {
+                debugger;
+
+                console.log(response);
+            })
+            .catch(function (error) {
+                debugger;
+
+                console.log(error);
             });
     }
 
@@ -71,17 +116,27 @@ export default class AttractionRideListItem extends Component {
                             onClick={this.searchForRates}
                         >
                             Search Rides
-                    </Button>
+                        </Button>
                     </Col>
                 </Row>
                 <Collapse in={this.state.resultsLoaded === true}>
                     <div>{this.state.availableRide
-                        ? 
-                        <Row className='rw-booking-hack__available-ride-result'> 
-                            <Col>{this.state.availableRide.carDetails.model}</Col>
-                            <Col>{this.state.availableRide.price}</Col>
-                            <Col>{this.state.availableRide.etaInSeconds}</Col>
-                            <Col>{this.state.availableRide.duration}</Col>
+                        ? <Row className='rw-booking-hack__available-ride-result'>
+                            <div className='rw-booking-hack__car-details'>
+                                <Col>Car: {this.state.availableRide.carDetails.model}</Col>
+                                <Col>Price: {this.state.availableRide.price}</Col>
+                            </div>
+                            <div className='rw-booking-hack__trip-details'>
+                                <Col>ETA: {this.state.availableRide.etaInSeconds}</Col>
+                                <Col>Trip time: {this.state.availableRide.duration}</Col>
+                            </div>
+                            <Button
+                                className='rw-booking-hack__attraction-list-search-btn'
+                                bsStyle="primary"
+                                onClick={this.bookRide}
+                            >
+                                Book Ride
+                            </Button>
                         </Row>
                         : <PulseLoader color={'#003580'} loading={this.state.loading} />
                     }
