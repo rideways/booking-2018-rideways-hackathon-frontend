@@ -4,7 +4,53 @@ const app = express()
 // Here mock the responses to the 3 types of reqeust that you'll have to make
 
 // 1. First request is to get a list of attractions
-app.get('/attractions/:city', (req, res) => res.json({
+app.get('/attractions/:city', (req, res) => res.send(
+    [{
+            name: "Anne Frank House",
+            location: {
+                placeId: "ChIJSRE-IcUJxkcRCltjPmVdmtQ",
+                lat: "52.3752182",
+                lon: "4.8817878"
+            }
+        },
+        {
+            name: "Van Gogh Museum",
+            location: {
+                placeId: "ChIJX1rTlu8JxkcRGsV8",
+                lat: "52.3584159",
+                lon: "4.8788869"
+            }
+        },
+        {
+            name: "Madame Tussauds",
+            location: {
+                placeId: "ChIJ19XKKccJxkcRawZK9nzTJz8",
+                lat: "52.3725235",
+                lon: "4.8904001"
+            }
+        },
+        {
+            name: "Body Worlds",
+            location: {
+                placeId: "ChIJ3XSZnccJxkcR-rNgffJJMGI",
+                lat: "52.3747422",
+                lon: "4.8927304"
+            }
+        },
+        {
+            name: "Heineken Experience",
+            location: {
+                placeId: "ChIJSxklPO0JxkcRCqxBkavK008",
+                lat: "52.3578313",
+                lon: "4.8896362"
+            }
+        }
+    ]
+));
+
+// 2. Second request is to get a list of rates for a given attraction
+// NB : Here we are assuming that the correct query parameters have been sent through.
+app.get('/rates/', (req, res) => res.json({
     "journeys": [{
         "legs": [{
             "searchReference": "SEARCH-b6a62ed1-35d5-4357-99df-7cde98264ec8",
@@ -125,8 +171,6 @@ app.get('/attractions/:city', (req, res) => res.json({
         }]
     }]
 }));
-
-// 2. Second request is to get a list of rates for a given attraction
 
 // 3. Third request is to try and book a given taxi
 
