@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AttractionRideListItem.scss';
-import { Col, Row, Collapse, Button, Well, Glyphicon } from 'react-bootstrap';
+import { Col, Row, Collapse, Button, Well, Glyphicon, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { ClipLoader, PulseLoader } from 'react-spinners';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 export default class AttractionRideListItem extends Component {
 
@@ -15,12 +17,31 @@ export default class AttractionRideListItem extends Component {
             availableRide: null,
             loadingRates: false,
             loadingBooking: false,
+            showConfirmation: false,
         };
         //explicitly bind hoisted functions to this on lexical scope.
         this.searchForRates = this.searchForRates.bind(this);
         this.bookRide = this.bookRide.bind(this);
+        this.confirmBookingChoice = this.confirmBookingChoice.bind(this);
         // this.renderSearchResults = this.renderSearchResults.bind(this);
     }
+
+    confirmBookingChoice() {
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure you want to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.bookRide()
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        })
+    };
 
     //todo: setup function to perform a search for rides.
     searchForRates(dropoffAttractionLat, dropoffAttractionLong) {
@@ -154,17 +175,17 @@ export default class AttractionRideListItem extends Component {
                                     <Button bsStyle="success">
                                         <Glyphicon glyph="ok" /> Booked!
                                     </Button>
-                                    : 
-                                    this.state.loadingBooking 
+                                    :
+                                    this.state.loadingBooking
                                         ?
-                                            <ClipLoader color={'#003580'} loading={this.state.loadingBooking} />
-                                        : 
-                                            <Button
-                                                className='rw-booking-hack__attraction-list-search-btn'
-                                                bsStyle="primary"
-                                                onClick={this.bookRide}
-                                            >
-                                                Book Ride
+                                        <ClipLoader color={'#003580'} loading={this.state.loadingBooking} />
+                                        :
+                                        <Button
+                                            className='rw-booking-hack__attraction-list-search-btn'
+                                            bsStyle="primary"
+                                            onClick={this.confirmBookingChoice}
+                                        >
+                                            Book Ride
                                             </Button>
                             }
                         </Row>
