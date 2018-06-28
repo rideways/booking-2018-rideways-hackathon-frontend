@@ -12,6 +12,35 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
   <![endif]-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/dist/scripts/geolocator.min.js"></script>
+  <script type="text/javascript">
+    geolocator.config({
+      language: "en",
+      google: {
+        version: "3",
+        key: "AIzaSyA0uRgwhBgNVy27MyFaxjrrO1rN2pefp9k"
+      }
+    });
+
+    window.onload = function () {
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumWait: 10000, // max wait time for desired accuracy
+        maximumAge: 0, // disable cache
+        desiredAccuracy: 30, // meters
+        fallbackToIP: true, // fallback to IP if Geolocation fails or rejected
+        addressLookup: true, // requires Google API key if true
+        timezone: true, // requires Google API key if true
+        // map: "map-canvas", // interactive map element id (or options object)
+        staticMap: true // get a static map image URL (boolean or options object)
+      };
+      geolocator.locate(options, function (err, location) {
+        if (err) return console.log(err);
+        console.log(location);
+      });
+    };
+  </script>
 </head>
 
 <body>

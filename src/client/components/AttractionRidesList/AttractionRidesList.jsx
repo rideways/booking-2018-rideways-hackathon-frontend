@@ -3,7 +3,8 @@ import AttractionRideListItem from '../AttractionRideListItem/AttractionRideList
 import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
 import axios from 'axios';
-// const AttractionsService = require('../../services/attractions-service').default;
+import { PulseLoader } from 'react-spinners';
+import styles from './AttractionRidesList.scss';
 
 class AttractionRidesList extends Component {
 
@@ -11,11 +12,46 @@ class AttractionRidesList extends Component {
         super(props);
 
         this.renderAttractionListItems = this.renderAttractionListItems.bind(this);
+        this.getUserLocation = this.getUserLocation.bind(this);
 
         //explicitly bind hoisted functions to this on lexical scope.
         this.state = {
             attractions: [],
+            loading: true,
         };
+    }
+
+    getUserLocation() {
+        var userCity = ''; //todo: STOP HARD CODING.
+
+        var options = {
+            enableHighAccuracy: true,
+            fallbackToIP: true, // fallback to IP if Geolocation fails or rejected
+            addressLookup: true
+        };
+
+        geolocator.config({
+            language: "en",
+            google: {
+                version: "3",
+                key: "AIzaSyC48NfaeD0nF8CmKFJ2aFCa1ZN-I6ZeQKI"
+            }
+        });
+
+        geolocator.locate(options, function (err, location) {
+            userCity = location.address.city;
+
+            //Make the inital request to get the list of attractions here
+            axios.get(`http://localhost:8080/attractions/${userCity}`)
+                .then((response) => {
+
+                    // Parse the resopnse into an array and update the state.
+                    this.setState({
+                        attractions: response.data,
+                        loading: false,
+                    });
+                });
+        }.bind(this));
     }
 
     componentDidMount() {
@@ -23,17 +59,7 @@ class AttractionRidesList extends Component {
         debugger;
 
         // TODO: GET CITY USING MOBILE LOCATION.
-        var userCity = 'amsterdam'; //todo: STOP HARD CODING.
 
-        //Make the inital request to get the list of attractions here
-        axios.get(`http://localhost:8080/attractions/${userCity}`)
-            .then((response) => {
-
-                // Parse the resopnse into an array and update the state.
-                this.setState({
-                    attractions: response.data
-                });
-            });
 
         // AttractionsService.getAttractions().then(localAttractions => {
 
@@ -43,6 +69,7 @@ class AttractionRidesList extends Component {
         //         attractions: localAttractions
         //     });
         // })
+        this.getUserLocation();
     }
 
     renderAttractionListItems() {
@@ -59,7 +86,14 @@ class AttractionRidesList extends Component {
 
     render() {
         debugger;
-        return <Grid>{this.renderAttractionListItems()}</Grid>
+        return this.state.loading === false ?
+            <Grid>{this.renderAttractionListItems()}</Grid> :
+            <div className='rw-booking-hack__loader'>
+                <PulseLoader
+                    color={'#003580'}
+                    loading={this.state.loading}
+                />
+            </div>
     }
 }
 
