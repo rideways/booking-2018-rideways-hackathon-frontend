@@ -1,10 +1,7 @@
 import axios from 'axios';
 
 export default class AttractionsService {
-    getAttractions() {
-
-        debugger;
-        
+    getAttractions() {        
         return axios.get(`http://localhost:8080/attractions/${userCity}`)
             .then((response) => {
 

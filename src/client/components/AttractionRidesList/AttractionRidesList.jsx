@@ -44,9 +44,11 @@ class AttractionRidesList extends Component {
             //Make the inital request to get the list of attractions here
             axios.get(`http://localhost:8080/attractions/${userCity}`)
                 .then((response) => {
+                    debugger;
 
                     // Parse the resopnse into an array and update the state.
                     this.setState({
+                        userLocation: location,
                         attractions: response.data,
                         loading: false,
                     });
@@ -55,37 +57,33 @@ class AttractionRidesList extends Component {
     }
 
     componentDidMount() {
-
-        debugger;
-
-        // TODO: GET CITY USING MOBILE LOCATION.
-
-
-        // AttractionsService.getAttractions().then(localAttractions => {
-
-        //     debugger; 
-
-        //     this.setState({
-        //         attractions: localAttractions
-        //     });
-        // })
         this.getUserLocation();
     }
 
     renderAttractionListItems() {
-        debugger;
         return this.state.attractions.map((currentAttraction, index) => {
             return (
                 <AttractionRideListItem
                     key={`rw-booking-hack__attraction-${index}`}
                     {...currentAttraction}
+                    pickupLocation={
+                        {
+                            lat: this.state.userLocation.coords.latitude,
+                            long: this.state.userLocation.coords.longitude,
+                        }
+                    }
+                    dropoffLocation={
+                        {
+                            lat: currentAttraction.geometry.location.lat,
+                            long: currentAttraction.geometry.location.lng,
+                        }
+                    }
                 />
             )
         });
     }
 
     render() {
-        debugger;
         return this.state.loading === false ?
             <Grid>{this.renderAttractionListItems()}</Grid> :
             <div className='rw-booking-hack__loader'>
