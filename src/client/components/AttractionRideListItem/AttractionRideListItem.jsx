@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AttractionRideListItem.scss';
-import { Col, Row, Collapse, Button, Well } from 'react-bootstrap';
+import { Col, Row, Collapse, Button, Well, Glyphicon } from 'react-bootstrap';
 import axios from 'axios';
 import { PulseLoader } from 'react-spinners';
 
@@ -42,6 +42,7 @@ export default class AttractionRideListItem extends Component {
                     availableRide: response.data.journeys[0].legs[0].results[0],
                     searchReference: response.data.journeys[0].legs[0].searchReference,
                     resultsLoaded: true,
+                    rideBooked: false,
                 });
             });
     }
@@ -81,7 +82,11 @@ export default class AttractionRideListItem extends Component {
                 debugger;
 
                 console.log(response);
-            })
+
+                this.setState({
+                    rideBooked: true,
+                })
+            }.bind(this))
             .catch(function (error) {
                 debugger;
 
@@ -130,13 +135,19 @@ export default class AttractionRideListItem extends Component {
                                 <Col>ETA: {this.state.availableRide.etaInSeconds}</Col>
                                 <Col>Trip time: {this.state.availableRide.duration}</Col>
                             </div>
-                            <Button
-                                className='rw-booking-hack__attraction-list-search-btn'
-                                bsStyle="primary"
-                                onClick={this.bookRide}
-                            >
-                                Book Ride
-                            </Button>
+                            {
+                                this.state.rideBooked ?
+                                    <Button bsStyle="success">
+                                        <Glyphicon glyph="ok" /> Booked!
+                                    </Button>
+                                    : <Button
+                                        className='rw-booking-hack__attraction-list-search-btn'
+                                        bsStyle="primary"
+                                        onClick={this.bookRide}
+                                    >
+                                        Book Ride
+                                </Button>
+                            }
                         </Row>
                         : <PulseLoader color={'#003580'} loading={this.state.loading} />
                     }
