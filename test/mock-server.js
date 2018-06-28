@@ -49,7 +49,7 @@ app.get('/attractions/:city', (req, res) => res.send(
 ));
 
 // 2. Second request is to get a list of rates for a given attraction
-// NB : Here we are assuming that the correct query parameters have been sent through.
+// NB : Here we are assuming that the correct query parameters have been sent through. req.query.param
 app.get('/rates/', (req, res) => res.json({
     "journeys": [{
         "legs": [{
@@ -173,5 +173,12 @@ app.get('/rates/', (req, res) => res.json({
 }));
 
 // 3. Third request is to try and book a given taxi
+app.post('/book/', (req, res) => {
+
+    // TODO: interpret the posted data.
+
+    // TO START: Just fake a resopnse to the post request.
+    res.json({"bookingReference":"10003311","affiliateReference":null});
+});
 
 app.listen(8080, () => console.log('Mock testing server serving up fake responses from port 8080!'))
