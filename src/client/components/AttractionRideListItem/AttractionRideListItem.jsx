@@ -77,8 +77,11 @@ export default class AttractionRideListItem extends Component {
                 <Collapse in={this.state.resultsLoaded === true}>
                     <div>{this.state.availableRide
                         ? 
-                        <Row> 
+                        <Row className='rw-booking-hack__available-ride-result'> 
                             <Col>{this.state.availableRide.carDetails.model}</Col>
+                            <Col>{this.state.availableRide.price}</Col>
+                            <Col>{this.state.availableRide.etaInSeconds}</Col>
+                            <Col>{this.state.availableRide.duration}</Col>
                         </Row>
                         : <PulseLoader color={'#003580'} loading={this.state.loading} />
                     }
