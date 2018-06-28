@@ -3,6 +3,13 @@ const app = express()
 
 // Here mock the responses to the 3 types of reqeust that you'll have to make
 
+// Enable CORS
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 // 1. First request is to get a list of attractions
 app.get('/attractions/:city', (req, res) => res.send(
     [{
@@ -178,7 +185,10 @@ app.post('/book/', (req, res) => {
     // TODO: interpret the posted data.
 
     // TO START: Just fake a resopnse to the post request.
-    res.json({"bookingReference":"10003311","affiliateReference":null});
+    res.json({
+        "bookingReference": "10003311",
+        "affiliateReference": null
+    });
 });
 
 app.listen(8080, () => console.log('Mock testing server serving up fake responses from port 8080!'))

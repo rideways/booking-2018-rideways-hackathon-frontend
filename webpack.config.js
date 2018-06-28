@@ -13,7 +13,8 @@ const config = {
     path: BUILD_DIR
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /(\.css|.scss)$/,
         use: [{
           loader: "style-loader" // creates style nodes from JS strings
@@ -25,15 +26,16 @@ const config = {
       },
       {
         test: /\.(jsx|js)?$/,
+        exclude: /(node_modules|bower_components)/,
         use: [{
           loader: "babel-loader",
           options: {
-            ignore: '/node_modules/',
             cacheDirectory: true,
-            presets: ['react', 'es2015'] // Transpiles JSX and ES6
+            presets: ['react', 'stage-0', 'es2015'] // Transpiles JSX and ES6
           }
         }]
-      }
+      },
+      
     ],
   }
 }

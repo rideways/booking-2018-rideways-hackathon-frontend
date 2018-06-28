@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+const AttractionsService = require('../services/attractions-service').default;
+
 // import ReactDOM from 'react-dom';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -15,50 +17,49 @@ class App extends Component {
 
     this.state = {
       attractions: [
-        {
-          name: "Anne Frank House",
-          location: {
-            placeId: "ChIJSRE-IcUJxkcRCltjPmVdmtQ",
-            lat: "52.3752182",
-            lon: "4.8817878"
-          }
-        },
-        {
-          name: "Van Gogh Museum",
-          location: {
-            placeId: "ChIJX1rTlu8JxkcRGsV8",
-            lat: "52.3584159",
-            lon: "4.8788869"
-          }
-        },
-        {
-          name: "Madame Tussauds",
-          location: {
-            placeId: "ChIJ19XKKccJxkcRawZK9nzTJz8",
-            lat: "52.3725235",
-            lon: "4.8904001"
-          }
-        },
-        {
-          name: "Body Worlds",
-          location: {
-            placeId: "ChIJ3XSZnccJxkcR-rNgffJJMGI",
-            lat: "52.3747422",
-            lon: "4.8927304"
-          }
-        },
-        {
-          name: "Heineken Experience",
-          location: {
-            placeId: "ChIJSxklPO0JxkcRCqxBkavK008",
-            lat: "52.3578313",
-            lon: "4.8896362"
-          }
-        }
+        //   {
+        //     name: "Anne Frank House",
+        //     location: {
+        //       placeId: "ChIJSRE-IcUJxkcRCltjPmVdmtQ",
+        //       lat: "52.3752182",
+        //       lon: "4.8817878"
+        //     }
+        //   },
+        //   {
+        //     name: "Van Gogh Museum",
+        //     location: {
+        //       placeId: "ChIJX1rTlu8JxkcRGsV8",
+        //       lat: "52.3584159",
+        //       lon: "4.8788869"
+        //     }
+        //   },
+        //   {
+        //     name: "Madame Tussauds",
+        //     location: {
+        //       placeId: "ChIJ19XKKccJxkcRawZK9nzTJz8",
+        //       lat: "52.3725235",
+        //       lon: "4.8904001"
+        //     }
+        //   },
+        //   {
+        //     name: "Body Worlds",
+        //     location: {
+        //       placeId: "ChIJ3XSZnccJxkcR-rNgffJJMGI",
+        //       lat: "52.3747422",
+        //       lon: "4.8927304"
+        //     }
+        //   },
+        //   {
+        //     name: "Heineken Experience",
+        //     location: {
+        //       placeId: "ChIJSxklPO0JxkcRCqxBkavK008",
+        //       lat: "52.3578313",
+        //       lon: "4.8896362"
+        //     }
+        //   }
       ]
     };
   }
-
   //   //Get car info
   //   axios.get('/api/cars')
   //     .then((response) => {
@@ -112,13 +113,14 @@ class App extends Component {
 
   render() {
     // const carsToShow = this.state.carsToShow;
+    debugger;
 
     return <div>
-      <header className='rw-booking-hack__header'>
+      < header className='rw-booking-hack__header' >
         <img src={'/dist/images/booking-logo-b.png'} />
-      </header>
-      <AttractionRidesList attractions={this.state.attractions} />
-    </div>;
+      </header >
+      <AttractionRidesList />
+    </div >;
   }
 }
 
