@@ -1,0 +1,133 @@
+const express = require('express')
+const app = express()
+
+// Here mock the responses to the 3 types of reqeust that you'll have to make
+
+// 1. First request is to get a list of attractions
+app.get('/attractions/:city', (req, res) => res.json({
+    "journeys": [{
+        "legs": [{
+            "searchReference": "SEARCH-b6a62ed1-35d5-4357-99df-7cde98264ec8",
+            "resultReference": 0,
+            "pickupLocation": {
+                "description": "London, London, GB",
+                "latLng": {
+                    "latitude": 51.510665560169485,
+                    "longitude": -0.16719818115234375
+                }
+            },
+            "dropoffLocation": {
+                "description": "London, London, GB",
+                "latLng": {
+                    "latitude": 51.49591970845512,
+                    "longitude": -0.10883331298828125
+                }
+            },
+            "results": [{
+                    "resultReference": 0,
+                    "predictedPickupDateTime": "2018-06-27T13:48+0100",
+                    "bags": 2,
+                    "meetAndGreet": true,
+                    "publicTransport": false,
+                    "imageUrl": "https://ondemand-booking.qa.someonedrive.me/images/matts-taxi.png",
+                    "drivingDistance": 17.78,
+                    "duration": 24,
+                    "maxPassenger": 2,
+                    "price": "33.33",
+                    "currency": "GBP",
+                    "twentyFourHourCancellation": false,
+                    "twoHourCancellation": false,
+                    "nonRefundable": false,
+                    "carDetails": {
+                        "model": "Tesla Model S",
+                        "modelDescription": "Executive limousine (Tesla Model S)",
+                        "description": "Super Special Taxi"
+                    },
+                    "link": "/bookingDetails/a3b92f6c-2323-4e44-a80c-b66a888880b9/2?affiliateCode=rideways",
+                    "supplierCategory": "GOLD",
+                    "etaInSeconds": 658
+                },
+                {
+                    "resultReference": 1,
+                    "predictedPickupDateTime": "2018-06-27T13:46+0100",
+                    "bags": 2,
+                    "meetAndGreet": true,
+                    "publicTransport": false,
+                    "imageUrl": "https://ondemand-booking.qa.someonedrive.me/images/schrodingers-cab.png",
+                    "drivingDistance": 17.78,
+                    "duration": 24,
+                    "maxPassenger": 6,
+                    "price": "88.88",
+                    "currency": "GBP",
+                    "twentyFourHourCancellation": false,
+                    "twoHourCancellation": false,
+                    "nonRefundable": false,
+                    "carDetails": {
+                        "model": "Tesla Model S",
+                        "modelDescription": "Executive limousine (Tesla Model S)",
+                        "description": "Schrodinger's Cab"
+                    },
+                    "link": "/bookingDetails/a3b92f6c-2323-4e44-a80c-b66a888880b9/2?affiliateCode=rideways",
+                    "supplierCategory": "GOLD",
+                    "etaInSeconds": 538
+                },
+                {
+                    "resultReference": 2,
+                    "predictedPickupDateTime": "2018-06-27T13:40+0100",
+                    "bags": 2,
+                    "meetAndGreet": true,
+                    "publicTransport": false,
+                    "imageUrl": "https://ondemand-booking.qa.someonedrive.me/images/gett.png",
+                    "drivingDistance": 17.78,
+                    "duration": 24,
+                    "maxPassenger": 4,
+                    "price": "20.71",
+                    "currency": "GBP",
+                    "twentyFourHourCancellation": false,
+                    "twoHourCancellation": false,
+                    "nonRefundable": false,
+                    "carDetails": {
+                        "model": "Tesla Model S",
+                        "modelDescription": "Executive limousine (Tesla Model S)",
+                        "description": "Business Class"
+                    },
+                    "link": "/bookingDetails/a3b92f6c-2323-4e44-a80c-b66a888880b9/2?affiliateCode=rideways",
+                    "supplierCategory": "GOLD",
+                    "etaInSeconds": 179
+                },
+                {
+                    "resultReference": 3,
+                    "predictedPickupDateTime": "2018-06-27T13:40+0100",
+                    "bags": 2,
+                    "meetAndGreet": true,
+                    "publicTransport": false,
+                    "imageUrl": "https://ondemand-booking.qa.someonedrive.me/images/gett.png",
+                    "drivingDistance": 17.78,
+                    "duration": 24,
+                    "maxPassenger": 4,
+                    "price": "20.41",
+                    "currency": "GBP",
+                    "twentyFourHourCancellation": false,
+                    "twoHourCancellation": false,
+                    "nonRefundable": false,
+                    "carDetails": {
+                        "model": "Tesla Model S",
+                        "modelDescription": "Executive limousine (Tesla Model S)",
+                        "description": "Business Class XL"
+                    },
+                    "link": "/bookingDetails/a3b92f6c-2323-4e44-a80c-b66a888880b9/2?affiliateCode=rideways",
+                    "supplierCategory": "GOLD",
+                    "etaInSeconds": 179
+                }
+            ],
+            "passenger": 2,
+            "selfLink": "/rideways/rates/SEARCH-b6a62ed1-35d5-4357-99df-7cde98264ec8"
+        }]
+    }]
+}));
+
+// 2. Second request is to get a list of rates for a given attraction
+
+// 3. Third request is to try and book a given taxi
+
+app.listen(8080, () => console.log('Mock testing server serving up fake responses from port 8080!'))

@@ -7,7 +7,8 @@
     "test": "jest",
     "watch": "grunt",
     "start": "node ./server.js",
-    "webpack": "./node_modules/.bin/webpack -w"
+    "webpack": "./node_modules/.bin/webpack -w",
+    "mockbackendserver": "node ./test/mock-server.js"
   },
   "jest": {
     "moduleNameMapper": {
