@@ -3,6 +3,7 @@ import AttractionRideListItem from '../AttractionRideListItem/AttractionRideList
 import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
 import axios from 'axios';
+// const AttractionsService = require('../../services/attractions-service').default;
 
 class AttractionRidesList extends Component {
 
@@ -19,6 +20,8 @@ class AttractionRidesList extends Component {
 
     componentDidMount() {
 
+        debugger;
+
         // TODO: GET CITY USING MOBILE LOCATION.
         var userCity = 'amsterdam'; //todo: STOP HARD CODING.
 
@@ -31,6 +34,15 @@ class AttractionRidesList extends Component {
                     attractions: response.data
                 });
             });
+
+        // AttractionsService.getAttractions().then(localAttractions => {
+
+        //     debugger; 
+
+        //     this.setState({
+        //         attractions: localAttractions
+        //     });
+        // })
     }
 
     renderAttractionListItems() {
