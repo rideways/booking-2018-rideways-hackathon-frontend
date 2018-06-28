@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AttractionRideListItem.scss';
+import { Col, Row, Collapse, Button, Well } from 'react-bootstrap';
 
 export default class AttractionRideListItem extends Component {
 
@@ -16,15 +17,22 @@ export default class AttractionRideListItem extends Component {
 
     render() {
         return (
-            <div>
-                <div className='rw-booking-hack__attraction-list-item-container'>
-                    <div className='rw-booking-hack__attraction-list-item-row'>
-                        <span className='rw-booking-hack__ride-type'>{this.props.name}</span>
-                        <button className='rw-booking-hack__search-rides'>Search Rides</button>
+            <Row className='show-grid rw-booking-hack__attraction-list-item'>
+                <Col className='rw-booking-hack__attraction-name'>{this.props.name}</Col>
+                <Col>
+                    <Button bsStyle="primary">Search Rates</Button>
+                </Col>
+                <Collapse>
+                    <div>
+                        <Well>
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life
+                            accusamus terry richardson ad squid. Nihil anim keffiyeh
+                            helvetica, craft beer labore wes anderson cred nesciunt sapiente
+                            ea proident.
+                        </Well>
                     </div>
-                </div>
-                {/* todo: use state flag to render a list of retrieved ride rates. */}
-            </div>
+                </Collapse>
+            </Row>
         )
     }
 }

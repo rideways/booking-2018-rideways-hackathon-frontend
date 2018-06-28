@@ -114,6 +114,9 @@ class App extends Component {
     // const carsToShow = this.state.carsToShow;
 
     return <div>
+      <header className='rw-booking-hack__header'>
+        <img src={'/dist/images/booking-logo-b.png'} />
+      </header>
       <AttractionRidesList attractions={this.state.attractions} />
     </div>;
   }

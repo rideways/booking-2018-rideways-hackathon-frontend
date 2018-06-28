@@ -1,3 +1,9 @@
-.rw-booking-hack__attraction-list-item-container {
-    background: hotpink;
+.rw-booking-hack__attraction-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rw-booking-hack__attraction-name {
+    flex: 0 1 60%;
 }

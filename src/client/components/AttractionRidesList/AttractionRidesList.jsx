@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AttractionRideListItem from '../AttractionRideListItem/AttractionRideListItem.jsx';
 import PropTypes from 'prop-types';
+import { Grid } from 'react-bootstrap';
 
 class AttractionRidesList extends Component {
 
@@ -27,7 +28,7 @@ class AttractionRidesList extends Component {
     }
 
     render() {
-        return <div>{this.renderAttractionListItems()}</div>
+        return <Grid>{this.renderAttractionListItems()}</Grid>
     }
 }
 

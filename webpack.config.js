@@ -28,6 +28,7 @@ const config = {
         use: [{
           loader: "babel-loader",
           options: {
+            ignore: '/node_modules/',
             cacheDirectory: true,
             presets: ['react', 'es2015'] // Transpiles JSX and ES6
           }
