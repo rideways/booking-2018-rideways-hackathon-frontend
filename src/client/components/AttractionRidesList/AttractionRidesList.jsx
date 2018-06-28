@@ -44,8 +44,6 @@ class AttractionRidesList extends Component {
             //Make the inital request to get the list of attractions here
             axios.get(`http://localhost:8080/attractions/${userCity}`)
                 .then((response) => {
-                    debugger;
-
                     // Parse the resopnse into an array and update the state.
                     this.setState({
                         userLocation: location,
@@ -57,11 +55,25 @@ class AttractionRidesList extends Component {
     }
 
     componentDidMount() {
-        this.getUserLocation();
+        // this.getUserLocation();
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            //Make the inital request to get the list of attractions here
+            axios.get(`http://localhost:8080/attractions?lat=${position.coords.latitude}&lng=${position.coords.longitude}`)
+                .then((response) => {
+                    // Parse the resopnse into an array and update the state.
+                    this.setState({
+                        userLocation: position,
+                        attractions: response.data,
+                        loading: false,
+                    });
+                });
+        });
     }
 
     renderAttractionListItems() {
         return this.state.attractions.map((currentAttraction, index) => {
+            console.log(`current attraction: ${currentAttraction.name} dropoff lat: ${currentAttraction.geometry.location.lat}, dropoff long: ${currentAttraction.geometry.location.lng}`);
             return (
                 <AttractionRideListItem
                     key={`rw-booking-hack__attraction-${index}`}
