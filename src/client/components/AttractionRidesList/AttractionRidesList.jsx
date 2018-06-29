@@ -159,9 +159,9 @@ class AttractionRidesList extends Component {
                         : null
                 }
                 <div className='rw-booking-hack__date-time-picker-pre-book'>
-                    <span>Choose a pickup time: </span>
+                    <span>Pickup time: </span>
                     <Datetime value={this.state.pickupDateTime} onChange={this.updateDateTime} />
-                    <span> OR: </span>
+                    <span> Or: </span>
                     <Button bsStyle='primary' onClick={this.setDateTimeToNow}>Go Now</Button>
                 </div>
                 <Grid>{this.renderAttractionListItems()}</Grid>

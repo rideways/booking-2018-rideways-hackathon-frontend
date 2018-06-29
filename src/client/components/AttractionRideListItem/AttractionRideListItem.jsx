@@ -60,7 +60,8 @@ export default class AttractionRideListItem extends Component {
         let currency = 'GBP'; // Leave for demo
         let language = 'en-gb'; // Leave for demo
         let passengers = 1; // Hardcode to 1
-        let pickupDateTime = null;
+        debugger;
+        let pickupDateTime = moment().add(5, 'hours').format().slice(0, -6);
 
 
         //TODO: IMPLEMENT MINIMUM PICKUP LEAD TIME.
@@ -87,7 +88,7 @@ export default class AttractionRideListItem extends Component {
         axios.get(`http://localhost:8080/rates?pickup=${this.props.pickupLocation.lat},${this.props.pickupLocation.long}&dropoff=${this.props.dropoffLocation.lat},${this.props.dropoffLocation.long}&language=${language}&currency=${currency}&passengers=${passengers}&isOnDemand=${isOnDemand}&pickupdatetime=${pickupDateTime}`
         )
             .then((response) => {
-                console.log(JSON.stringify(response.data.journeys[0].legs[0].results));
+                console.log('Rates retrieved: ' + JSON.stringify(response.data));
 
                 // Parse the response into state.
                 this.setState({
@@ -98,22 +99,41 @@ export default class AttractionRideListItem extends Component {
                     loadingRates: false,
                     rideBooked: false,
                 });
+            }).catch((error) => {
+
+                console.log('error in loading rates');
+
+                this.setState({
+                    loadingRates: false,
+                });
             });
     }
 
-    bookRide(resultReference = 0, isOnDemand = true, attempt = 1) {
+    bookRide(resultReference, isOnDemand = true, attempt = 1) {
+
+        debugger;
+        let resultReferenceAttempt = null;
+        if (this.props.isOnDemand === true) {
+            resultReferenceAttempt = 0;
+        } else {
+            resultReferenceAttempt = 1;
+        }
+
+        this.setState({
+            loadingBooking: true,
+        });
 
         //build up POST request to book that specific journey           
         axios.post('http://localhost:8080/book', {
             paymentNonce: "fake-valid-nonce",
-            isOnDemand: this.props.onDemand,
+            isOnDemand: this.props.isOnDemand,
             affiliateCallbackURL: "https://affiliate.com/callback",
             journeys: [
                 {
                     legs: [
                         {
                             searchReference: this.state.searchReference,
-                            resultReference: 0,
+                            resultReference: resultReferenceAttempt,
                         }
                     ]
                 }
@@ -133,17 +153,25 @@ export default class AttractionRideListItem extends Component {
         }
         )
             .then(function (response) {
+                debugger;
                 console.log(response);
 
                 this.setState({
                     rideBooked: true,
+                    loadingBooking: false,
                 })
             }.bind(this))
             .catch(function (error) {
+                // debugger;
+                console.log('RETRYING;');
                 console.log(error);
 
+                this.setState({
+                    loadingBooking: false,
+                })
+
                 //retry
-                this.bookRide();
+                // this.bookRide();
             }.bind(this));
     }
 
@@ -189,7 +217,7 @@ export default class AttractionRideListItem extends Component {
                                 <Col>Price: {this.state.availableRide.price} {this.state.availableRide.currency} </Col>
                             </div>
                             <div className='rw-booking-hack__trip-details'>
-                                <Col>ETA: {this.state.availableRide.etaInSeconds}</Col>
+                                <Col>{this.state.availableRide.etaInSeconds ? `ETA: ${this.state.availableRide.etaInSeconds}` : null}</Col>
                             </div>
                             {
                                 this.state.rideBooked ?
