@@ -79,7 +79,7 @@ class AttractionRidesList extends Component {
     }
 
     setDateTimeToNow() {
-        console.log('setting date time to now.');
+        console.log('setting date time to now: ' + moment().toString());
 
         //set this to now
         var now = moment();
@@ -91,8 +91,6 @@ class AttractionRidesList extends Component {
     }
 
     updateDateTime(datetime) {
-        debugger;
-
         console.log('updateing date time');
 
         this.setState({
@@ -103,6 +101,7 @@ class AttractionRidesList extends Component {
 
     renderAttractionListItems() {
         console.log('rendering list');
+        console.log('passing down pickuptime: ' + this.state.pickupDateTime.toString());
         return this.state.attractions.map((currentAttraction, index) => {
             // console.log(`current attraction: ${currentAttraction.name} dropoff lat: ${currentAttraction.geometry.location.lat}, dropoff long: ${currentAttraction.geometry.location.lng}`);
             return (

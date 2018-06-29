@@ -12,6 +12,7 @@ export default class AttractionRideListItem extends Component {
 
     constructor(props) {
         super(props);
+        console.log('received pickup time: ' + this.props.prebookPickupTime.toString());
         this.state = {
             // availableRides: [],
             availableRide: null,
@@ -59,22 +60,25 @@ export default class AttractionRideListItem extends Component {
         let currency = 'GBP'; // Leave for demo
         let language = 'en-gb'; // Leave for demo
         let passengers = 1; // Hardcode to 1
-        // let pickupDateTime = null;
+        let pickupDateTime = null;
 
-        debugger;
 
         //TODO: IMPLEMENT MINIMUM PICKUP LEAD TIME.
 
-        var minPreBookedPickupTime = this.props.prebookPickupTime;
-        var minPreBookedPickupTimeString = minPreBookedPickupTime.utc().format().slice(0, -1);
+        if (this.props.isOnDemand === false) {
 
-        // console.log('Current time in UTC: ' + currentTimeString);
-        console.log('Adding at least a 2 hour lead time for pre-booked taxis.');
+            debugger;
 
+            var minPreBookedPickupTime = this.props.prebookPickupTime;
 
-        console.log('New pickup date time with a 2 hour lead time: ' + minPreBookedPickupTimeString);
+            //todo: use moment to check if time is min 2 hours ahead if pre-booked.
 
-        let pickupDateTime = minPreBookedPickupTimeString;
+            var minPreBookedPickupTimeString = minPreBookedPickupTime.format().slice(0, -6);
+
+            console.log('New pickup date time with a 2 hour lead time: ' + minPreBookedPickupTimeString);
+
+            pickupDateTime = minPreBookedPickupTimeString;
+        } //otherwise leave null
 
         this.setState({
             loadingRates: true,
@@ -102,14 +106,14 @@ export default class AttractionRideListItem extends Component {
         //build up POST request to book that specific journey           
         axios.post('http://localhost:8080/book', {
             paymentNonce: "fake-valid-nonce",
-            isOnDemand: "true",
+            isOnDemand: this.props.onDemand,
             affiliateCallbackURL: "https://affiliate.com/callback",
             journeys: [
                 {
                     legs: [
                         {
                             searchReference: this.state.searchReference,
-                            resultReference: 0
+                            resultReference: 0,
                         }
                     ]
                 }
