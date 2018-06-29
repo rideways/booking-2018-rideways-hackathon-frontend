@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ClipLoader, PulseLoader } from 'react-spinners';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import moment from 'moment';
 
 export default class AttractionRideListItem extends Component {
 
@@ -18,6 +19,8 @@ export default class AttractionRideListItem extends Component {
             loadingRates: false,
             loadingBooking: false,
             showConfirmation: false,
+            isOnDemandChosen: true,
+            preBookedPickupTime: null,
         };
         //explicitly bind hoisted functions to this on lexical scope.
         this.searchForRates = this.searchForRates.bind(this);
@@ -44,20 +47,37 @@ export default class AttractionRideListItem extends Component {
     };
 
     //todo: setup function to perform a search for rides.
-    searchForRates(dropoffAttractionLat, dropoffAttractionLong) {
+    searchForRates(dropoffAttractionLat, dropoffAttractionLong, isOnDemandChosen) {
 
         //pickup will always be the same - pass this in from props.
-        let isOnDemand = true; //TODO: Add support for pre-booked
+        // let isOnDemand = isOnDemandChosen; //TODO: uncomment when actually implementi
+        let isOnDemand = false;
+        // let isOnDemand = true;
         let currency = 'GBP'; // Leave for demo
         let language = 'en-gb'; // Leave for demo
         let passengers = 1; // Hardcode to 1
-        let pickupDateTime = null; // TODO: For pre-booking get the pickup time right now using moment
+        // let pickupDateTime = null;
+
+        debugger;
+        
+        var now = moment().utc().format();
+        var minPreBookedPickupTime = moment();
+        minPreBookedPickupTime.add(6, 'hours');
+        var minPreBookedPickupTimeString = minPreBookedPickupTime.utc().format().slice(0, -1);
+
+        // console.log('Current time in UTC: ' + currentTimeString);
+        console.log('Adding at least a 2 hour lead time for pre-booked taxis.');
+        
+        
+        console.log('New pickup date time with a 2 hour lead time: ' + minPreBookedPickupTimeString);
+
+        let pickupDateTime = minPreBookedPickupTimeString;
 
         this.setState({
             loadingRates: true,
         });
 
-        axios.get(`http://localhost:8080/rates?pickup=${this.props.pickupLocation.lat},${this.props.pickupLocation.long}&dropoff=${this.props.dropoffLocation.lat},${this.props.dropoffLocation.long}&language=${language}&currency=${currency}&passengers=${passengers}&apikey=abcde-12345&isOnDemand=${isOnDemand}&pickupdatetime=${pickupDateTime}`
+        axios.get(`http://localhost:8080/rates?pickup=${this.props.pickupLocation.lat},${this.props.pickupLocation.long}&dropoff=${this.props.dropoffLocation.lat},${this.props.dropoffLocation.long}&language=${language}&currency=${currency}&passengers=${passengers}&isOnDemand=${isOnDemand}&pickupdatetime=${pickupDateTime}`
         )
             .then((response) => {
                 console.log(JSON.stringify(response.data.journeys[0].legs[0].results));
@@ -106,8 +126,6 @@ export default class AttractionRideListItem extends Component {
         }
         )
             .then(function (response) {
-                debugger;
-
                 console.log(response);
 
                 this.setState({
@@ -115,8 +133,6 @@ export default class AttractionRideListItem extends Component {
                 })
             }.bind(this))
             .catch(function (error) {
-                debugger;
-
                 console.log(error);
 
                 //retry
@@ -139,7 +155,6 @@ export default class AttractionRideListItem extends Component {
 
     render() {
         const availableRide = this.state.availableRide;
-        debugger;
         return (
             <div className='show-grid rw-booking-hack__attraction-list-item-container' >
                 <Row className='rw-booking-hack__attraction-list-item'>
@@ -164,11 +179,10 @@ export default class AttractionRideListItem extends Component {
                         ? <Row className='rw-booking-hack__available-ride-result'>
                             <div className='rw-booking-hack__car-details'>
                                 <Col>Car: {this.state.availableRide.carDetails.model}</Col>
-                                <Col>Price: {this.state.availableRide.price}</Col>
+                                <Col>Price: {this.state.availableRide.price} {this.state.availableRide.currency} </Col>
                             </div>
                             <div className='rw-booking-hack__trip-details'>
                                 <Col>ETA: {this.state.availableRide.etaInSeconds}</Col>
-                                <Col>Trip time: {this.state.availableRide.duration}</Col>
                             </div>
                             {
                                 this.state.rideBooked ?
