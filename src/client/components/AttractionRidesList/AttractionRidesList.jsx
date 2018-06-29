@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AttractionRideListItem from '../AttractionRideListItem/AttractionRideListItem.jsx';
 import PropTypes from 'prop-types';
-import { Grid, Button } from 'react-bootstrap';
+import { Grid, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { PulseLoader } from 'react-spinners';
 import styles from './AttractionRidesList.scss';
@@ -25,6 +25,7 @@ class AttractionRidesList extends Component {
             loading: true,
             pickupDateTime: moment(),
             isOnDemand: true, //defaul to onDemand
+            timeError: false,
         };
     }
 
@@ -87,16 +88,35 @@ class AttractionRidesList extends Component {
         this.setState({
             pickupDateTime: now,
             isOnDemand: true,
+            timeError: false,
         });
     }
 
     updateDateTime(datetime) {
         console.log('updateing date time');
 
-        this.setState({
-            pickupDateTime: datetime,
-            isOnDemand: false,
-        });
+        //check that the time is at least 2 hours from now.
+
+        var chosenTime = datetime;
+
+        //find min
+        var min = moment();
+        min.add(2, 'hours');
+
+        debugger;
+        if (chosenTime.isBefore(min)) {
+            this.setState({
+                pickupDateTime: datetime,
+                isOnDemand: false,
+                timeError: true,
+            });
+        } else {
+            this.setState({
+                pickupDateTime: datetime,
+                isOnDemand: false,
+                timeError: false,
+            });
+        }
     }
 
     renderAttractionListItems() {
@@ -130,14 +150,22 @@ class AttractionRidesList extends Component {
     render() {
         return this.state.loading === false ?
             <div>
+                {
+                    this.state.timeError === true
+                        ?
+                        <Alert bsStyle="danger" closeLabel='Choose new time'>
+                            <strong>Can't prebook that soon!</strong> Use 'Go Now' or choose a time at least 2 hours in the future.
+                        </Alert>
+                        : null
+                }
                 <div className='rw-booking-hack__date-time-picker-pre-book'>
                     <span>Choose a pickup time: </span>
                     <Datetime value={this.state.pickupDateTime} onChange={this.updateDateTime} />
                     <Button bsStyle='primary' onClick={this.setDateTimeToNow}>Go Now</Button>
                 </div>
                 <Grid>{this.renderAttractionListItems()}</Grid>
-            </div> :
-            <div className='rw-booking-hack__loader'>
+            </div >
+            : <div className='rw-booking-hack__loader'>
                 <PulseLoader
                     color={'#003580'}
                     loading={this.state.loading}
