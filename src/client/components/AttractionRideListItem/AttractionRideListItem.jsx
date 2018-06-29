@@ -20,13 +20,17 @@ export default class AttractionRideListItem extends Component {
             loadingBooking: false,
             showConfirmation: false,
             isOnDemandChosen: true,
-            preBookedPickupTime: null,
+            preBookedPickupTime: moment().toDate(), //default to now.
         };
         //explicitly bind hoisted functions to this on lexical scope.
         this.searchForRates = this.searchForRates.bind(this);
         this.bookRide = this.bookRide.bind(this);
         this.confirmBookingChoice = this.confirmBookingChoice.bind(this);
-        // this.renderSearchResults = this.renderSearchResults.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(date) {
+        this.setState({ preBookedPickupTime: date });
     }
 
     confirmBookingChoice() {
@@ -59,7 +63,7 @@ export default class AttractionRideListItem extends Component {
         // let pickupDateTime = null;
 
         debugger;
-        
+
         var now = moment().utc().format();
         var minPreBookedPickupTime = moment();
         minPreBookedPickupTime.add(6, 'hours');
@@ -67,8 +71,8 @@ export default class AttractionRideListItem extends Component {
 
         // console.log('Current time in UTC: ' + currentTimeString);
         console.log('Adding at least a 2 hour lead time for pre-booked taxis.');
-        
-        
+
+
         console.log('New pickup date time with a 2 hour lead time: ' + minPreBookedPickupTimeString);
 
         let pickupDateTime = minPreBookedPickupTimeString;
@@ -200,7 +204,7 @@ export default class AttractionRideListItem extends Component {
                                             onClick={this.confirmBookingChoice}
                                         >
                                             Book Ride
-                                            </Button>
+                                        </Button>
                             }
                         </Row>
                         : <PulseLoader color={'#003580'} loading={this.state.loadingRates} />

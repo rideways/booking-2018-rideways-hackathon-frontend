@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-const AttractionsService = require('../services/attractions-service').default;
 
 // import ReactDOM from 'react-dom';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -14,9 +13,10 @@ class App extends Component {
 
   render() {
     return <div>
-      < header className='rw-booking-hack__header' >
+      <header className='rw-booking-hack__header' >
         <img src={'/dist/images/booking-logo-b.png'} />
       </header >
+      
       <AttractionRidesList />
     </div >;
   }

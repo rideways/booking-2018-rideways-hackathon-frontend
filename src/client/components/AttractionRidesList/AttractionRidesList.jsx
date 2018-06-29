@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import AttractionRideListItem from '../AttractionRideListItem/AttractionRideListItem.jsx';
 import PropTypes from 'prop-types';
-import { Grid } from 'react-bootstrap';
+import { Grid, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { PulseLoader } from 'react-spinners';
 import styles from './AttractionRidesList.scss';
+import moment from 'moment';
+
+const Datetime = require('react-datetime');
 
 class AttractionRidesList extends Component {
 
@@ -13,11 +16,15 @@ class AttractionRidesList extends Component {
 
         this.renderAttractionListItems = this.renderAttractionListItems.bind(this);
         this.getUserLocation = this.getUserLocation.bind(this);
+        this.setDateTimeToNow = this.setDateTimeToNow.bind(this);
+        this.updateDateTime = this.updateDateTime.bind(this);
 
         //explicitly bind hoisted functions to this on lexical scope.
         this.state = {
             attractions: [],
             loading: true,
+            pickupDateTime: moment(),
+            isOnDemand: true, //defaul to onDemand
         };
     }
 
@@ -71,6 +78,29 @@ class AttractionRidesList extends Component {
         });
     }
 
+    setDateTimeToNow() {
+        console.log('setting date time to now.');
+
+        //set this to now
+        var now = moment();
+
+        this.setState({
+            pickupDateTime: now,
+            isOnDemand: true,
+        });
+    }
+
+    updateDateTime(datetime) {
+        debugger;
+
+        console.log('updateing date time');
+
+        this.setState({
+            pickupDateTime: datetime,
+            isOnDemand: false,
+        });
+    }
+
     renderAttractionListItems() {
         return this.state.attractions.map((currentAttraction, index) => {
             console.log(`current attraction: ${currentAttraction.name} dropoff lat: ${currentAttraction.geometry.location.lat}, dropoff long: ${currentAttraction.geometry.location.lng}`);
@@ -90,6 +120,8 @@ class AttractionRidesList extends Component {
                             long: currentAttraction.geometry.location.lng,
                         }
                     }
+                    prebookPickupTime={this.state.pickupDateTime}
+                    isOnDemand={this.state.isOnDemand}
                 />
             )
         });
@@ -97,7 +129,14 @@ class AttractionRidesList extends Component {
 
     render() {
         return this.state.loading === false ?
-            <Grid>{this.renderAttractionListItems()}</Grid> :
+            <div>
+                <div className='rw-booking-hack__date-time-picker-pre-book'>
+                    <span>Choose a pickup time: </span>
+                    <Datetime value={this.state.pickupDateTime} onChange={this.updateDateTime} />
+                    <Button bsStyle='primary' onClick={this.setDateTimeToNow}>Go Now</Button>
+                </div>
+                <Grid>{this.renderAttractionListItems()}</Grid>
+            </div> :
             <div className='rw-booking-hack__loader'>
                 <PulseLoader
                     color={'#003580'}
