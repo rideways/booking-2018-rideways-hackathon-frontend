@@ -185,10 +185,13 @@ app.post('/book/', (req, res) => {
     // TODO: interpret the posted data.
 
     // TO START: Just fake a resopnse to the post request.
-    res.json({
-        "bookingReference": "10003311",
-        "affiliateReference": null
-    });
+    setTimeout((function () {
+        res.json({
+            "bookingReference": "10003311",
+            "affiliateReference": null
+        });
+    }), 3000);
+
 });
 
 app.listen(8084, () => console.log('Mock testing server serving up fake responses from port 8084!'))
