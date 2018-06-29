@@ -15,8 +15,9 @@ class App extends Component {
     return <div>
       <header className='rw-booking-hack__header' >
         <img src={'/dist/images/booking-logo-b.png'} />
+        <h4 className="rw-booking-hack__header-text">BookingGo Rides - Nearby Attractions:</h4>
       </header >
-      
+
       <AttractionRidesList />
     </div >;
   }

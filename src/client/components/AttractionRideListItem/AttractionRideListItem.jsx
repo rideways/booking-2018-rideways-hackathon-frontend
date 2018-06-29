@@ -231,7 +231,7 @@ export default class AttractionRideListItem extends Component {
                                 <Col>Price: {this.state.availableRide.price} {this.state.availableRide.currency} </Col>
                             </div>
                             <div className='rw-booking-hack__trip-details'>
-                                <Col>{this.state.availableRide.etaInSeconds ? `ETA: ${this.state.availableRide.etaInSeconds}` : null}</Col>
+                                <Col>{this.state.availableRide.etaInSeconds ? `ETA: ${this.state.availableRide.etaInSeconds} seconds` : null}</Col>
                             </div>
                             {
                                 this.state.rideBooked ?
