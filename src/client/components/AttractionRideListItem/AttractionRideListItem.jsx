@@ -12,15 +12,14 @@ export default class AttractionRideListItem extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             // availableRides: [],
             availableRide: null,
             loadingRates: false,
             loadingBooking: false,
             showConfirmation: false,
-            isOnDemandChosen: true,
-            preBookedPickupTime: moment().toDate(), //default to now.
+            isOnDemandChosen: this.props.isOnDemand,
+            preBookedPickupTime: this.props.prebookPickupTime
         };
         //explicitly bind hoisted functions to this on lexical scope.
         this.searchForRates = this.searchForRates.bind(this);
@@ -51,11 +50,11 @@ export default class AttractionRideListItem extends Component {
     };
 
     //todo: setup function to perform a search for rides.
-    searchForRates(dropoffAttractionLat, dropoffAttractionLong, isOnDemandChosen) {
+    searchForRates(dropoffAttractionLat, dropoffAttractionLong) {
 
         //pickup will always be the same - pass this in from props.
         // let isOnDemand = isOnDemandChosen; //TODO: uncomment when actually implementi
-        let isOnDemand = false;
+        let isOnDemand = this.props.isOnDemand;
         // let isOnDemand = true;
         let currency = 'GBP'; // Leave for demo
         let language = 'en-gb'; // Leave for demo
@@ -64,9 +63,9 @@ export default class AttractionRideListItem extends Component {
 
         debugger;
 
-        var now = moment().utc().format();
-        var minPreBookedPickupTime = moment();
-        minPreBookedPickupTime.add(6, 'hours');
+        //TODO: IMPLEMENT MINIMUM PICKUP LEAD TIME.
+
+        var minPreBookedPickupTime = this.props.prebookPickupTime;
         var minPreBookedPickupTimeString = minPreBookedPickupTime.utc().format().slice(0, -1);
 
         // console.log('Current time in UTC: ' + currentTimeString);
@@ -221,4 +220,6 @@ AttractionRideListItem.propTypes = {
     location: PropTypes.object,
     pickupLocation: PropTypes.object,
     dropoffLocation: PropTypes.object,
+    prebookPickupTime: PropTypes.object,
+    isOnDemand: PropTypes.bool,
 };

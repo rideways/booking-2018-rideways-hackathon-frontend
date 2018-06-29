@@ -102,8 +102,9 @@ class AttractionRidesList extends Component {
     }
 
     renderAttractionListItems() {
+        console.log('rendering list');
         return this.state.attractions.map((currentAttraction, index) => {
-            console.log(`current attraction: ${currentAttraction.name} dropoff lat: ${currentAttraction.geometry.location.lat}, dropoff long: ${currentAttraction.geometry.location.lng}`);
+            // console.log(`current attraction: ${currentAttraction.name} dropoff lat: ${currentAttraction.geometry.location.lat}, dropoff long: ${currentAttraction.geometry.location.lng}`);
             return (
                 <AttractionRideListItem
                     key={`rw-booking-hack__attraction-${index}`}
