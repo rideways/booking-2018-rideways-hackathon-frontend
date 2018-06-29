@@ -23,7 +23,7 @@ class AttractionRidesList extends Component {
         this.state = {
             attractions: [],
             loading: true,
-            pickupDateTime: moment(),
+            pickupDateTime: moment().add(2, 'hours'),
             isOnDemand: true, //defaul to onDemand
             timeError: false,
         };
@@ -161,6 +161,7 @@ class AttractionRidesList extends Component {
                 <div className='rw-booking-hack__date-time-picker-pre-book'>
                     <span>Choose a pickup time: </span>
                     <Datetime value={this.state.pickupDateTime} onChange={this.updateDateTime} />
+                    <span> OR: </span>
                     <Button bsStyle='primary' onClick={this.setDateTimeToNow}>Go Now</Button>
                 </div>
                 <Grid>{this.renderAttractionListItems()}</Grid>
