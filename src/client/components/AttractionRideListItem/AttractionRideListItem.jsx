@@ -35,8 +35,8 @@ export default class AttractionRideListItem extends Component {
 
     confirmBookingChoice() {
         confirmAlert({
-            title: 'Confirm to submit',
-            message: 'Are you sure you want to do this.',
+            title: 'Book this ride?',
+            message: `Are you sure you want to book this ride? ${this.props.isOnDemand ? ` arriving ASAP in ${this.state.availableRide.etaInSeconds} seconds` : `at ${this.state.preBookedPickupTime.toString()}`} from your current location to ${this.props.name} for ${this.state.availableRide.price} ${this.state.availableRide.currency}?.`,
             buttons: [
                 {
                     label: 'Yes',
@@ -123,8 +123,19 @@ export default class AttractionRideListItem extends Component {
             loadingBooking: true,
         });
 
+        const httpClient = axios.create();
+        httpClient.defaults.timeout = 400000000;
+
+        let urlToQuery = '';
+
+        if (this.props.onDemand === true) {
+            urlToQuery = 'http://localhost:8080/book';
+        } else {
+            urlToQuery = 'http://localhost:8084/book';
+        }
+
         //build up POST request to book that specific journey           
-        axios.post('http://localhost:8080/book', {
+        httpClient.post(urlToQuery, {
             paymentNonce: "fake-valid-nonce",
             isOnDemand: this.props.isOnDemand,
             affiliateCallbackURL: "https://affiliate.com/callback",
@@ -171,7 +182,9 @@ export default class AttractionRideListItem extends Component {
                 })
 
                 //retry
-                // this.bookRide();
+                if (this.props.isOnDemand) {
+                    this.bookRide();
+                }
             }.bind(this));
     }
 
@@ -212,6 +225,7 @@ export default class AttractionRideListItem extends Component {
                 <Collapse in={this.state.resultsLoaded === true}>
                     <div>{this.state.availableRide
                         ? <Row className='rw-booking-hack__available-ride-result'>
+                            {/* <div>{this.state.isOnDemandChosen === true ? 'On Demand: ' : 'Pre-booked: '}</div> */}
                             <div className='rw-booking-hack__car-details'>
                                 <Col>Car: {this.state.availableRide.carDetails.model}</Col>
                                 <Col>Price: {this.state.availableRide.price} {this.state.availableRide.currency} </Col>
